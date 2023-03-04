@@ -38,43 +38,42 @@ Some possible ideas for project packages:
 
 You are strongly encouraged to brainstorm ideas beyond these examples. Ideally, the package should be useful in some aspect of a data science workflow, but this is not strictly required. Your package must have a unifying purpose. It should not simply be a collection of unrelated utility functions. However, make sure to consider what additional convenience functionality you should provide to ensure your users get the most use of your package.
 
-Proposal
+## Proposal - DUE 3/22/23
+
 The project proposal be no more than 1 page containing the following:
+
 1. Title: A descriptive title of the project
 2. Authors: List all team members’ full names
 3. Summary: 1-2 paragraphs summarizing the overall purpose of your package.
-4. Proposed design: 2-3 paragraphs describing in detail the modules, classes, and functions you will
-need to implement to provide the package’s intended functionality. Describe any external libraries
-you may need to use, and what aspects of the implementation will be your team’s work. Describe any
-potential challenges you foresee in your implementation.
+4. Proposed design: 2-3 paragraphs describing in detail the modules, classes, and functions you will need to implement to provide the package’s intended functionality. Describe any external libraries you may need to use, and what aspects of the implementation will be your team’s work. Describe any potential challenges you foresee in your implementation.
+
 The project proposal should be submitted as a PDF on Canvas.
-Report
+
+## Report
+
 The project report should be no more than 2-3 pages containing the following:
+
 1. Title: A descriptive title of the project
 2. Authors: List all team members’ full names
 3. Github: A link to a Github repository where the project’s source code will be deposited.
-4. Summary: Summarize the overall purpose of the package (i.e., what problem does it solved), any
-related work or similar libraries, and a brief, non-technical description of any notable modules, classes,
-or functions.
-5. Design: A technical description of the modules, classes, and functions implemented in the package.
-This does not need to be exhaustive, and should only cover the most important aspects of the package
-for a user to understand. The description should be clear and concise so that a user can understand the
-overall design and organization of the package.
-6. Usage: Description and examples of how the package should be used, how it fits into a workflow. This
-section may include code snippets, but it should primarily be a written description.
-7. Discussion: Discuss how the package compares to related libraries, and how it fits into the overall
-ecosystem. Why should people use this package? How could the package be improved?
-8. Statement of contributions: List the full names of the authors and how each member contributed
-to the completion of the project.
-9. References: Cite any external libraries used by the project, and any sources that were used as a
-reference. Use a consistent format and numbering scheme
+4. Summary: Summarize the overall purpose of the package (i.e., what problem does it solved), any related work or similar libraries, and a brief, non-technical description of any notable modules, classes, or functions.
+5. Design: A technical description of the modules, classes, and functions implemented in the package. This does not need to be exhaustive, and should only cover the most important aspects of the package for a user to understand. The description should be clear and concise so that a user can understand the overall design and organization of the package.
+6. Usage: Description and examples of how the package should be used, how it fits into a workflow. This section may include code snippets, but it should primarily be a written description.
+7. Discussion: Discuss how the package compares to related libraries, and how it fits into the overall ecosystem. Why should people use this package? How could the package be improved?
+8. Statement of contributions: List the full names of the authors and how each member contributed to the completion of the project.
+9. References: Cite any external libraries used by the project, and any sources that were used as a reference. Use a consistent format and numbering scheme
+
 The project report should be submitted as a PDF on Canvas.
-Package repository
+
+## Package repository
+
 The complete code for each project hosted on a public Github repository owned by one of the team members.
+
 The repository should include at least the following:
-1. README.md: A Markdown-formatted description of the package’s overall purpose, the organization
-of the package code in the repository, and some simple examples of usage.
+
+1. README.md: A Markdown-formatted description of the package’s overall purpose, the organization of the package code in the repository, and some simple examples of usage.
 2. __init__.py: Initialization script marking the repository as a Python package.
 3. Modules: Modules ending in “.py” containing Python code defining classes and functions.
 4. Test: Test scripts ending in “.py” containing unit tests covering most of the package’s functionality.
+
 A link to the repository should be submitted on Canvas.

@@ -1,6 +1,6 @@
 # Northeastern University, DS 5010 - Project
 
-A collaborative team project by Kieran Black, Sarah Gore, and Rebecca Bromfeld.
+A collaborative team project by Kieran Black, Sarah Gore, and Rebecca Bronfeld.
 
 For full project requirements: [Project Requirements](project-requirements.md)
 

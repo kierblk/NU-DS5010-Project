@@ -90,7 +90,7 @@ class CleanlockHolmes:
                 elif self.valid_dictionary.get(col):
                     if self.data_object.loc[i].at[col] not in self.valid_dictionary[col]:
                         invalid_values_tracker[i][j] = 1
-                    
+        print(invalid_values_tracker)          
         return invalid_values_tracker
                 
 
@@ -110,14 +110,22 @@ class CleanlockHolmes:
 
         """
         rows, columns = invalid_values_tracker.shape
-        counter = 0
         if method == 1:
             for i in range(rows):
                 total = sum(invalid_values_tracker[i])
                 if total > 0:
-                    self.data_object.drop(labels = i - counter, axis = 0)
-                    print("dropped row")
-                    counter += 1
+                    self.data_object = self.data_object.drop([i])
+
+        elif method == 2:
+            for i in range(rows):
+                for j in range(columns):
+                    col = self.columns[j]
+                    if invalid_values_tracker[i][j] == 1:
+                        self.data_object.loc[i].at[col] = arg[col]
+                                   
+
+
+        return self.data_object
 
         
           
@@ -131,25 +139,29 @@ class CleanlockHolmes:
         returns None
         """
 
-        pass
+        self.data_object.to_csv(new_file_name)
+        
 
 if __name__ == "__main__":
 
-    data_object = CleanlockHolmes("bmi_gender_corrupted.csv")
+    data_object = CleanlockHolmes("testcase.csv")
+    print(data_object.data_object)
 
-    output = data_object.specify_invalid_entries(['NA', '', 'null', '--'], 'Weight')
-    print(output)
+    output = data_object.specify_invalid_entries(['na', '', 'null', '0'], 'Height')
 
     #data_object.specify_invalid_entries([“NA”, “”, “null”, “--”], “Height”)
     #data_object.specify_invalid_entries([“NA”, “”, “null”, “--”, “0”], “Index”)
 
 
-    output2 = data_object.specify_valid_entries(['Male', 'Female', 'Not specified'] , 'Gender')
-    print(output2)
+    data_object.specify_valid_entries(['male', 'female', 'other'] , 'Gender')
+    data_object.specify_valid_entries(['red', 'blue', 'green'] , 'Color')
+    
 
     output_3 = data_object.identify_invalid_values()
+    # expect rows 2,3,4,57,8,9,10,11,12,13 to be dropped
     
-    data_object.clean_data(1, output_3)
+    output_4 = data_object.clean_data(1, output_3, {'Gender': 'not specified', 'Height' : 'out of range', 'Color': 'Black'})
+    print(output_4)
 
-    #data_object.write_data(new_file_name)
+    data_object.write_data("cleaned_data.csv")
 

@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import math
 
 
 class CleanlockHolmes:
@@ -28,15 +29,18 @@ class CleanlockHolmes:
         if file_format == 'csv':
         
             df = pd.read_csv(input_file)
+            
 
         elif file_format == 'json':
 
             df = pd.read_json(input_file)
+            
 
         else:
             df = None
             print("Data type not supported by this package")
 
+        print(df.columns)
         return df
 
     def specify_invalid_entries(self, invalid_values_list, col_name):
@@ -51,6 +55,8 @@ class CleanlockHolmes:
         """
     
         self.invalid_dictionary[col_name] = invalid_values_list
+
+
 
         return self.invalid_dictionary
             
@@ -78,13 +84,18 @@ class CleanlockHolmes:
         returns a list of indicies of corresponding to invalid data entries
         """
         rows , columns = self.data_object.shape
-        invalid_values_tracker = np.zeros((rows - 1 , columns))
+        invalid_values_tracker = np.zeros((rows, columns))
         print(invalid_values_tracker)
 
         for j in range(len(self.columns)):
             col = self.columns[j]
-            for i in range(rows -1):
-                if self.invalid_dictionary.get(col):
+            for i in range(rows):
+                if type(type(self.data_object.loc[i].at[col])) == str:
+                    self.data_object.loc[i].at[col] = self.data_object.loc[i].at[col].str.lower()
+                if type(self.data_object.loc[i].at[col]) != str:
+                    if np.isnan(self.data_object.loc[i].at[col]):
+                        invalid_values_tracker[i][j] =1
+                elif self.invalid_dictionary.get(col):
                     if self.data_object.loc[i].at[col] in self.invalid_dictionary[col]:
                         invalid_values_tracker[i][j] = 1
                 elif self.valid_dictionary.get(col):
@@ -140,28 +151,32 @@ class CleanlockHolmes:
         """
 
         self.data_object.to_csv(new_file_name)
-        
+                
 
+        
 if __name__ == "__main__":
 
     data_object = CleanlockHolmes("testcase.csv")
     print(data_object.data_object)
 
+
+    
     output = data_object.specify_invalid_entries(['na', '', 'null', '0'], 'Height')
 
     #data_object.specify_invalid_entries([“NA”, “”, “null”, “--”], “Height”)
     #data_object.specify_invalid_entries([“NA”, “”, “null”, “--”, “0”], “Index”)
 
 
-    data_object.specify_valid_entries(['male', 'female', 'other'] , 'Gender')
+    data_object.specify_valid_entries(['sushi', 'pizza', 'other'] , 'Food')
     data_object.specify_valid_entries(['red', 'blue', 'green'] , 'Color')
     
 
     output_3 = data_object.identify_invalid_values()
     # expect rows 2,3,4,57,8,9,10,11,12,13 to be dropped
     
-    output_4 = data_object.clean_data(1, output_3, {'Gender': 'not specified', 'Height' : 'out of range', 'Color': 'Black'})
+    output_4 = data_object.clean_data(2, output_3, {'Food': 'not specified', 'Height' : 'out of range', 'Color': 'black'})
     print(output_4)
 
     data_object.write_data("cleaned_data.csv")
+    
 

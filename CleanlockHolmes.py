@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import math
+
 
 
 class CleanlockHolmes:
@@ -87,6 +87,8 @@ class CleanlockHolmes:
         invalid_values_tracker = np.zeros((rows, columns))
         print(invalid_values_tracker)
 
+
+# Use type error here for unt testing
         for j in range(len(self.columns)):
             col = self.columns[j]
             for i in range(rows):
@@ -174,7 +176,7 @@ if __name__ == "__main__":
     output_3 = data_object.identify_invalid_values()
     # expect rows 2,3,4,57,8,9,10,11,12,13 to be dropped
     
-    output_4 = data_object.clean_data(2, output_3, {'Food': 'not specified', 'Height' : 'out of range', 'Color': 'black'})
+    output_4 = data_object.clean_data(1, output_3, {'Food': 'not specified', 'Height' : 'out of range', 'Color': 'black'})
     print(output_4)
 
     data_object.write_data("cleaned_data.csv")

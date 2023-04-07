@@ -74,19 +74,34 @@ class CleanlockHolmes:
 
         self.valid_dictionary[col_name] = valid_values_list
 
-        return self.valid_dictionary
+    def specify_numeric_column(col_name):
+        """
+        Specifies a given column is intended to be numeric 
+        param col_name - specified column
+        returns None
+        """
+
+        pass
+
+    def specify_viable_range(col_name,min_val, max_val):
+        """
+        Specifies a viable column range of values where col is
+        specified numeric 
+        para
+        """
+
+        pass
+
 
     def identify_invalid_values(self):
 
         """
         identifies row/col pairs that contain an invalid value 
         param None
-        returns a list of indicies of corresponding to invalid data entries
+        returns None
         """
         rows , columns = self.data_object.shape
         invalid_values_tracker = np.zeros((rows, columns))
-        print(invalid_values_tracker)
-
 
 # Use type error here for unt testing
         for j in range(len(self.columns)):
@@ -114,6 +129,7 @@ class CleanlockHolmes:
         Selects a method from these options:
         method 1 drop_row: removes data point
         method 2 replace_row : replaces problematic data point with values
+        method 3 replace_average : replaces problematic numeric data point with the median and mode for categorical
         specified in arg["replacement"]
         param
 
@@ -135,8 +151,22 @@ class CleanlockHolmes:
                     col = self.columns[j]
                     if invalid_values_tracker[i][j] == 1:
                         self.data_object.loc[i].at[col] = arg[col]
-                                   
 
+        elif method == 3:
+            for i in range(rows):
+                for j in range(columns):
+                    col = self.columns[j]
+                        
+                    if invalid_values_tracker[i][j] == 1:
+                        try:
+                            col_median = self.data_object[col].median()
+                            print(col_median)
+                            self.data_object.loc[i].at[col] = col_median
+
+                        except TypeError:
+                            col_mode = self.data_object[col].mode()
+                            print(col_mode)
+                            self.data_object.loc[i].at[col] = col_mode
 
         return self.data_object
 
@@ -176,7 +206,7 @@ if __name__ == "__main__":
     output_3 = data_object.identify_invalid_values()
     # expect rows 2,3,4,57,8,9,10,11,12,13 to be dropped
     
-    output_4 = data_object.clean_data(1, output_3, {'Food': 'not specified', 'Height' : 'out of range', 'Color': 'black'})
+    output_4 = data_object.clean_data(3, output_3, {'Food': 'not specified', 'Height' : 'out of range', 'Color': 'black'})
     print(output_4)
 
     data_object.write_data("cleaned_data.csv")

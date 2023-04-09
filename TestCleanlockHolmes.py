@@ -1,4 +1,6 @@
 import unittest
+import pandas as pd
+import numpy as np
 from CleanlockHolmes import CleanlockHolmes
 
 class TestCleanlockHolmes(unittest.TestCase):
@@ -9,39 +11,51 @@ class TestCleanlockHolmes(unittest.TestCase):
         '''
         Tests if CleanLockHolmes properly initializes by checking inputs
         '''
-        pass
+        self.filename = 'testcase.csv'
+        self.CleanlockHolmes = CleanlockHolmes(self.filename)
 
-    def read_data(self):
+    def test_read_data(self):
         '''
-        Tests if read_data returns 
+        Tests reading a given file
+        *still in progress
         '''
-        pass
+        table = {'col1': ['a', 'b', 'c'], 'col2': [1, 2, 3], 'col3': [4, 5, 6]}
+        expected_output = pd.DataFrame(table)
+        self.assertEqual(self.CleanlockHolmes.data_object.equals(expected_output), True)
 
-    def specify_invalid_entries(self):
+    def test_specify_invalid_entries(self):
         '''
-        Tests if 
+        Tests if entries are invalid for given column
         '''
-        pass
+        invalid_values = ['a','b','c']
+        col = 'col1'
+        self.CleanlockHolmes.specify_invalid_entries(invalid_values, col)
+        expected_invalid_dict = {'col1': ['b']}
+        self.assertDictEqual(self.CleanlockHolmes.invalid_dictionary, expected_invalid_dict)
 
-    def specify_valid_entries(self):
+    def test_specify_valid_entries(self):
+        '''
+        test
+        '''
+        valid_values = ['a','b','c']
+        col = 'col1'
+        self.CleanlockHolmes.specify_valid_entries(valid_values, col)
+        expected_valid_dict = {'col1': ['a','b','c']}
+        self.assertDictEqual(self.CleanlockHolmes.valid_dictionary, expected_valid_dict)
+
+    def test_identify_invalid_values(self):
         '''
         test
         '''
         pass
 
-    def identify_invalid_values(self):
+    def test_clean_data(self):
         '''
         test
         '''
         pass
 
-    def clean_data(self):
-        '''
-        test
-        '''
-        pass
-
-    def write_data(self):
+    def test_write_data(self):
         '''
         test
         '''

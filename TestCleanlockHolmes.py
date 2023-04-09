@@ -25,7 +25,7 @@ class TestCleanlockHolmes(unittest.TestCase):
 
     def test_specify_invalid_entries(self):
         '''
-        Tests if entries are invalid for given column
+        Tests output of given invalid entries for given column
         '''
         invalid_values = ['a','b','c']
         col = 'col1'
@@ -33,9 +33,15 @@ class TestCleanlockHolmes(unittest.TestCase):
         expected_invalid_dict = {'col1': ['b']}
         self.assertDictEqual(self.CleanlockHolmes.invalid_dictionary, expected_invalid_dict)
 
+    def test_specify_viable_range(self):
+        '''
+        tests if upper and lower bounds are needed for a given column
+        '''
+        pass
+
     def test_specify_valid_entries(self):
         '''
-        test
+        Tests output of given valid entries for given column
         '''
         valid_values = ['a','b','c']
         col = 'col1'
@@ -45,19 +51,19 @@ class TestCleanlockHolmes(unittest.TestCase):
 
     def test_identify_invalid_values(self):
         '''
-        test
+        Tests if given values are identified in table
         '''
         pass
 
     def test_clean_data(self):
         '''
-        test
+        Tests if cleaning value entries outputs based on chosen method
         '''
         pass
 
     def test_write_data(self):
         '''
-        test
+        Tests if file is written to cvs or json file
         '''
         pass
 

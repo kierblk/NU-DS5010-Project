@@ -16,7 +16,29 @@ class CleanlockHolmes:
         self.columns = self.data_object.columns
         self.invalid_dictionary = {}
         self.valid_dictionary = {}
-    
+        self.col_types_dictionary = {}
+        self.data_ranges = {}
+
+
+    def specify_col_data_types(self):
+        """
+        User specifies data type for each column
+        param self.columns column headers
+        returns None
+        """
+
+        question = "Please enter a column data type:\nA = String\nB = Integer\nC = Float "
+
+        for column in self.columns:
+            print(f"Column name: {column}")
+            user_input = input(question).upper()
+            if user_input == "A":
+                self.col_types_dictionary[column] = ['str']
+            elif user_input == "B":
+                self.col_types_dictionary[column] = ['int']
+            else:
+                self.col_types_dictionary[column] = ['float']
+
 
     def read_data(self, input_file):
         """
@@ -73,24 +95,33 @@ class CleanlockHolmes:
         """
 
         self.valid_dictionary[col_name] = valid_values_list
+        
 
-    def specify_numeric_column(col_name):
-        """
-        Specifies a given column is intended to be numeric 
-        param col_name - specified column
-        returns None
-        """
-
-        pass
-
-    def specify_viable_range(col_name,min_val, max_val):
+    def specify_viable_range(self):
         """
         Specifies a viable column range of values where col is
         specified numeric 
-        para
+        param None
+        return
         """
+        for column in self.columns:
+            if self.col_types_dictionary[column] == ['int'] or self.col_types_dictionary[column] == ['float']:
+                min_value = None
+                max_value = None
+                while type(min_value) != int or type(max_value) != int:
+                    try:
+                        min_value = int(input(f"Please enter an integer lower bound for {column}: "))
+                        max_value = int(input(f"Please enter an integer upper bound for {column}: "))
 
-        pass
+                    except:
+                        print("only numeric values accepted")
+                        min_value = int(input(f"Please enter an integer lower bound for {column}: "))
+                        max_value = int(input(f"Please enter an integer upper bound for {column}: "))
+                
+     
+                self.data_ranges[column] = [int(min_value), int(max_value)]
+
+        return self.data_ranges
 
 
     def identify_invalid_values(self):
@@ -103,7 +134,7 @@ class CleanlockHolmes:
         rows , columns = self.data_object.shape
         invalid_values_tracker = np.zeros((rows, columns))
 
-# Use type error here for unt testing
+
         for j in range(len(self.columns)):
             col = self.columns[j]
             for i in range(rows):
@@ -112,6 +143,8 @@ class CleanlockHolmes:
                 if type(self.data_object.loc[i].at[col]) != str:
                     if np.isnan(self.data_object.loc[i].at[col]):
                         invalid_values_tracker[i][j] =1
+                    elif self.data_object.loc[i].at[col] < self.data_ranges[col][0] or self.data_object.loc[i].at[col] > self.data_ranges[col][1]:
+                        invalid_values_tracker[i][j] =1               
                 elif self.invalid_dictionary.get(col):
                     if self.data_object.loc[i].at[col] in self.invalid_dictionary[col]:
                         invalid_values_tracker[i][j] = 1
@@ -191,24 +224,32 @@ if __name__ == "__main__":
     data_object = CleanlockHolmes("testcase.csv")
     print(data_object.data_object)
 
+    data_object.specify_col_data_types()
 
+    output_2 = data_object.specify_viable_range()
+    print(output_2["Height"][0])
+    print(output_2['Height'][0])
     
-    output = data_object.specify_invalid_entries(['na', '', 'null', '0'], 'Height')
-
-    #data_object.specify_invalid_entries([“NA”, “”, “null”, “--”], “Height”)
-    #data_object.specify_invalid_entries([“NA”, “”, “null”, “--”, “0”], “Index”)
+ 
+    
+    
+    # output = data_object.specify_invalid_entries(['na', '', 'null', '0'], 'Height')
+    # output = data_object.specify_invalid_entries(['na', '', 'null', '0'], 'Weight')
 
 
     data_object.specify_valid_entries(['sushi', 'pizza', 'other'] , 'Food')
     data_object.specify_valid_entries(['red', 'blue', 'green'] , 'Color')
     
+    
 
     output_3 = data_object.identify_invalid_values()
-    # expect rows 2,3,4,57,8,9,10,11,12,13 to be dropped
+    print(output_3)
     
-    output_4 = data_object.clean_data(3, output_3, {'Food': 'not specified', 'Height' : 'out of range', 'Color': 'black'})
+    output_4 = data_object.clean_data(1, output_3, {'Food': 'not specified', 'Height' : 'out of range', 'Color': 'black'})
     print(output_4)
 
     data_object.write_data("cleaned_data.csv")
+
+    
     
 

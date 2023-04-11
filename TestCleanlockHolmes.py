@@ -5,7 +5,6 @@ from CleanlockHolmes import CleanlockHolmes
 
 class TestCleanlockHolmes(unittest.TestCase):
 
-# for the following tests --> self.assertEqual; self.assertTrue
 
     def test_init(self):
         '''
@@ -14,10 +13,21 @@ class TestCleanlockHolmes(unittest.TestCase):
         self.filename = 'testcase.csv'
         self.CleanlockHolmes = CleanlockHolmes(self.filename)
 
+    def test_interactive_specify_col_data_types(self):
+        '''
+        PLACEHOLDER: in the event interactive is used instead of other version
+        '''
+        pass
+
+    def test_specify_col_data_types(self):
+        '''
+        Tests if data type for given column is identified
+        '''
+        pass
+
     def test_read_data(self):
         '''
         Tests reading a given file
-        *still in progress
         '''
         table = {'col1': ['a', 'b', 'c'], 'col2': [1, 2, 3], 'col3': [4, 5, 6]}
         expected_output = pd.DataFrame(table)
@@ -33,12 +43,6 @@ class TestCleanlockHolmes(unittest.TestCase):
         expected_invalid_dict = {'col1': ['b']}
         self.assertDictEqual(self.CleanlockHolmes.invalid_dictionary, expected_invalid_dict)
 
-    def test_specify_viable_range(self):
-        '''
-        tests if upper and lower bounds are needed for a given column
-        '''
-        pass
-
     def test_specify_valid_entries(self):
         '''
         Tests output of given valid entries for given column
@@ -48,6 +52,21 @@ class TestCleanlockHolmes(unittest.TestCase):
         self.CleanlockHolmes.specify_valid_entries(valid_values, col)
         expected_valid_dict = {'col1': ['a','b','c']}
         self.assertDictEqual(self.CleanlockHolmes.valid_dictionary, expected_valid_dict)
+
+    def test_interactive_specify_viable_range(self):
+        '''
+        PLACEHOLDER: in the event interactive is used instead of other version
+        '''
+        pass
+    
+    def test_specify_viable_range(self):
+        '''
+        tests if upper and lower bounds are needed for a given column
+        '''
+        self.CleanlockHolmes.specify_col_data_types()
+        self.CleanlockHolmes.specify_viable_range()
+        expected_range = {'col1': [20, 300], 'col2': [5, 20]}
+        self.assertDictEqual(self.CleanlockHolmes.data_ranges, expected_range)
 
     def test_identify_invalid_values(self):
         '''

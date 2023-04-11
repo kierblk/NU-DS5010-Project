@@ -1,7 +1,20 @@
 import numpy as np
 import pandas as pd
 
+'''
+(Rebecca) Had a few notes; added commentary as needed
 
+Overall note:
+    I heard best practice for syntax formatting is only have one empty line
+    between methods/functions (I could be wrong, but am open to discussing it).
+    Even if we do more than one empty line,
+    we should keep it consistent throughout the class.
+
+For methods that return None:
+    I believe that if a method returns None, then the final line should just say "return".
+    Ex. line 91: specify_invalid_entries returns None, but last line of code returns self.invalid_dictionary.
+    Could we confirm with professor?
+'''
 
 class CleanlockHolmes:
     """
@@ -9,7 +22,6 @@ class CleanlockHolmes:
     effective and straightforward approach to handling invalid values in
     datasets.
     """
-    
     def __init__(self,file_name):
         self.file_name = file_name
         self.data_object = self.read_data(file_name)
@@ -48,7 +60,7 @@ class CleanlockHolmes:
         returns None
         """
         self.col_types_dictionary[col_name] = [data_type]
-        
+        # Rebecca note: this looks like a great alternative!
 
 
     def read_data(self, input_file):
@@ -86,13 +98,13 @@ class CleanlockHolmes:
         returns None
 
         """
-    
+
         self.invalid_dictionary[col_name] = invalid_values_list
 
 
 
         return self.invalid_dictionary
-            
+
 
     def specify_valid_entries(self,valid_values_list, col_name):
         """
@@ -146,7 +158,8 @@ class CleanlockHolmes:
             col_name: column name
         returns None
         """
-            
+        # Rebecca note: does the above need to be set to None? Or no since it's only applied if called?
+        # ex. specify_viable_range(self,min_value=None, max_value=None, col_name=None)
         if col_name in self.col_types_dictionary and (self.col_types_dictionary[col_name] == ['int'] or self.col_types_dictionary[col_name] == ['float']):
             try:
                 min_value = float(min_value)
@@ -163,7 +176,6 @@ class CleanlockHolmes:
 
 
     def identify_invalid_values(self):
-
         """
         identifies row/col pairs that contain an invalid value 
         param None
@@ -172,16 +184,17 @@ class CleanlockHolmes:
         rows , columns = self.data_object.shape
         invalid_values_tracker = np.zeros((rows, columns))
 
-        for j in range(len(self.columns)):
+        for j in range(len(self.columns)): # iterates through each existing column
             col = self.columns[j]
-            for i in range(rows):
+            for i in range(rows): # iterates through each row in existing column
                 if type(type(self.data_object.loc[i].at[col])) == str:
-                    self.data_object.loc[i].at[col] = self.data_object.loc[i].at[col].str.lower()
+                    self.data_object.loc[i].at[col] = self.data_object.loc[i].at[col].str.lower() # str is no longer case sensitive
                 if type(self.data_object.loc[i].at[col]) != str:
                     if np.isnan(self.data_object.loc[i].at[col]):
-                        invalid_values_tracker[i][j] =1
+                        invalid_values_tracker[i][j] =1 # adjusts for NaN values
                 
-                if col in self.data_ranges:
+                if col in self.data_ranges: # identifies if a range is called
+                    # Rebecca note: do we need to set data_ranges as None/All if user does not call it?
                     if self.data_object.loc[i].at[col] < self.data_ranges[col][0] or self.data_object.loc[i].at[col] > self.data_ranges[col][1]:
                         invalid_values_tracker[i][j] =1               
                 elif self.invalid_dictionary.get(col):

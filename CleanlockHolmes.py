@@ -222,21 +222,21 @@ class CleanlockHolmes:
                 for j in range(columns):
                     col = self.columns[j]
                     if invalid_values_tracker[i][j] == 1:
-                        self.data_object.loc[i].at[col] = arg[col]
+                        self.data_object.loc[i,col]= arg[col]
 
         elif method == 3:
-            for i in range(rows):
-                for j in range(columns):
-                    col = self.columns[j]
-                        
+            median_values = self.data_object.median(numeric_only = True)
+            mode_values = self.data_object.mode().iloc[0]
+            for j in range(columns):
+                col = self.columns[j]
+                if col in median_values:
+                    replace_value = median_values[col]
+                else:
+                    replace_value = mode_values[col]
+                                
+                for i in range(rows):
                     if invalid_values_tracker[i][j] == 1:
-                        try:
-                            col_median = self.data_object[col].median()
-                            self.data_object.loc[i].at[col] = col_median
-
-                        except TypeError:
-                            col_mode = self.data_object[col].mode()
-                            self.data_object.loc[i].at[col] = col_mode
+                        self.data_object.loc[i,col] = replace_value
 
         return self.data_object
 
@@ -263,7 +263,7 @@ if __name__ == "__main__":
 
     # data_object.interactive_specify_col_data_types()
     data_object.specify_col_data_types('float', "Weight")
-    data_object.specify_col_data_types('float', "Height")
+    data_object.specify_col_data_types('int', "Height")
     data_object.specify_col_data_types('str', "Color")
     data_object.specify_col_data_types('str', "Food")
     
@@ -284,8 +284,9 @@ if __name__ == "__main__":
 
     output_3 = data_object.identify_invalid_values()
     print(output_3)
+
     
-    output_4 = data_object.clean_data(1, output_3, {'Food': 'not specified', 'Height' : 'out of range', 'Color': 'black', 'Weight' : 'out of range'})
+    output_4 = data_object.clean_data(3, output_3, {'Food': 'not specified', 'Height' : 'out of range', 'Color': 'black', 'Weight' : 'out of range'})
     print(output_4)
 
     data_object.write_data("cleaned_data.csv")

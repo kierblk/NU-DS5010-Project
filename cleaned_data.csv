@@ -1,13 +1,13 @@
 ,Food,Height,Color,Weight
-0,pizza,133,,10000.0
-1,,111,green,90.0
-2,Sushi,0,blue,200.0
-3,pizza,123,na,3000.0
-4,,145,red,124.0
+0,pizza,133,black,out of range
+1,not specified,111,green,out of range
+2,not specified,0,blue,200.0
+3,pizza,123,black,out of range
+4,not specified,145,red,124.0
 5,pizza,89,red,167.0
-6,,123,blue,155.0
-7,water,166,purple,189.0
-8,pizza,190,red,0.0
-9,sushi,210,,
-10,na,123,blue,
+6,not specified,123,blue,155.0
+7,not specified,166,black,189.0
+8,pizza,190,red,out of range
+9,sushi,210,black,out of range
+10,not specified,123,blue,out of range
 11,other,124,blue,136.0

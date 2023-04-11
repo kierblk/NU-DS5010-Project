@@ -1,7 +1,15 @@
 import numpy as np
 import pandas as pd
 
+'''
+Had a few notes; added commentary as needed
 
+Overall note:
+    I heard best practice for syntax formatting is only have one empty line
+    between methods/functions (I could be wrong, but am open to discussing it).
+    Even if we do more than one empty line,
+    we should keep it consistent throughout the class.
+'''
 
 class CleanlockHolmes:
     """
@@ -48,7 +56,7 @@ class CleanlockHolmes:
         returns None
         """
         self.col_types_dictionary[col_name] = [data_type]
-        
+        # Rebecca note: this looks like a great alternative!
 
 
     def read_data(self, input_file):
@@ -146,7 +154,8 @@ class CleanlockHolmes:
             col_name: column name
         returns None
         """
-            
+        # Rebecca note: does the above need to be set to None? Or no since it's only applied if called?
+        # ex. specify_viable_range(self,min_value=None, max_value=None, col_name=None)
         if col_name in self.col_types_dictionary and (self.col_types_dictionary[col_name] == ['int'] or self.col_types_dictionary[col_name] == ['float']):
             try:
                 min_value = float(min_value)

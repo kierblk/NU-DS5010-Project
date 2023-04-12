@@ -22,6 +22,7 @@ class CleanlockHolmes:
     effective and straightforward approach to handling invalid values in
     datasets.
     """
+    
     def __init__(self,file_name):
         self.file_name = file_name
         self.data_object = self.read_data(file_name)
@@ -31,14 +32,12 @@ class CleanlockHolmes:
         self.col_types_dictionary = {}
         self.data_ranges = {}
 
-
     def interactive_specify_col_data_types(self):
         """
         User specifies data type for each column
         param self.columns column headers
         returns None
         """
-
         question = "Please enter a column data type:\nA = String\nB = Integer\nC = Float "
 
         for column in self.columns:
@@ -60,9 +59,7 @@ class CleanlockHolmes:
         returns None
         """
         self.col_types_dictionary[col_name] = [data_type]
-        # Rebecca note: this looks like a great alternative!
-
-
+        
     def read_data(self, input_file):
         """
         Function to read data from an input file and stores it in a pandas DataFrame
@@ -73,14 +70,11 @@ class CleanlockHolmes:
 
         if file_format == 'csv':
         
-            df = pd.read_csv(input_file)
-            
+            df = pd.read_csv(input_file)        
 
         elif file_format == 'json':
 
             df = pd.read_json(input_file)
-            
-
         else:
             df = None
             print("Data type not supported by this package")
@@ -96,16 +90,9 @@ class CleanlockHolmes:
                 invalid_values_list - list of invalid value entries
                 col_name - specified column
         returns None
-
         """
-
         self.invalid_dictionary[col_name] = invalid_values_list
-
-
-
-        return self.invalid_dictionary
-
-
+        
     def specify_valid_entries(self,valid_values_list, col_name):
         """
         Function allowing user to declare a list of valid value entries
@@ -114,18 +101,26 @@ class CleanlockHolmes:
                 valid_values_list - list of valid value entries
                 col_name - specified column
         returns None
-
         """
-
         self.valid_dictionary[col_name] = valid_values_list
 
+    def _get_user_input_colbound(self, column):
+        """
+        Gets the user input used in calculating the viable range for numeric columns
+        param Column : column name
+        returns the min and max values specified by user, raises ValueErrror if non-numeric values are given
+        """
+        min_value = float(input(f"Please enter an numeric lower bound for {column}: "))
+        max_value = float(input(f"Please enter an numeric upper bound for {column}: "))
+
+        return min_value, max_value
 
     def interactive_specify_viable_range(self):
         """
         Specifies a viable column range of values where col is
         specified numeric 
         param None
-        return
+        returns None
         """
         for column in self.columns:
             if self.col_types_dictionary[column] == ['int'] or self.col_types_dictionary[column] == ['float']:
@@ -133,33 +128,26 @@ class CleanlockHolmes:
                 max_value = None
                 while type(min_value) != float or type(max_value) != float:
                     try:
-                        min_value = float(input(f"Please enter an integer lower bound for {column}: "))
-                        max_value = float(input(f"Please enter an integer upper bound for {column}: "))
+                        min_value, max_value = self._get_user_input_colbound(column)
 
                     except:
                         print("only numeric values accepted")
-                        min_value = float(input(f"Please enter an integer lower bound for {column}: "))
-                        max_value = float(input(f"Please enter an integer upper bound for {column}: "))
-                
-     
+                        min_value, max_value = self._get_user_input_colbound(column)
+                        
                 self.data_ranges[column] = [min_value, max_value]
 
         return self.data_ranges
 
-
-
     def specify_viable_range(self,min_value, max_value, col_name):
         """
-        Specifies a viable column range of values where col is
-        specified numeric 
+        Specifies a viable column range of values  for a previously decalared numeric column
+        raises ValueError if values are non-numeric or col_name had not been declared numeric
         param
             min_value: minimum value 
             max_value: maximum value
             col_name: column name
         returns None
-        """
-        # Rebecca note: does the above need to be set to None? Or no since it's only applied if called?
-        # ex. specify_viable_range(self,min_value=None, max_value=None, col_name=None)
+        """    
         if col_name in self.col_types_dictionary and (self.col_types_dictionary[col_name] == ['int'] or self.col_types_dictionary[col_name] == ['float']):
             try:
                 min_value = float(min_value)
@@ -167,15 +155,12 @@ class CleanlockHolmes:
                 self.data_ranges[col_name] = [min_value, max_value]
                 
             except ValueError:
-                raise Exception("min and max values must be numeric")
-                
+                raise Exception("min and max values must be numeric")       
         else:
             raise Exception(f"column {col_name} must have been declared numeric prior to specifying viable range")
-            
-    
-
 
     def identify_invalid_values(self):
+
         """
         identifies row/col pairs that contain an invalid value 
         param None
@@ -184,17 +169,15 @@ class CleanlockHolmes:
         rows , columns = self.data_object.shape
         invalid_values_tracker = np.zeros((rows, columns))
 
-        for j in range(len(self.columns)): # iterates through each existing column
+        for j in range(len(self.columns)):
             col = self.columns[j]
-            for i in range(rows): # iterates through each row in existing column
+            for i in range(rows):
                 if type(type(self.data_object.loc[i].at[col])) == str:
-                    self.data_object.loc[i].at[col] = self.data_object.loc[i].at[col].str.lower() # str is no longer case sensitive
+                    self.data_object.loc[i].at[col] = self.data_object.loc[i].at[col].str.lower()
                 if type(self.data_object.loc[i].at[col]) != str:
                     if np.isnan(self.data_object.loc[i].at[col]):
-                        invalid_values_tracker[i][j] =1 # adjusts for NaN values
-                
-                if col in self.data_ranges: # identifies if a range is called
-                    # Rebecca note: do we need to set data_ranges as None/All if user does not call it?
+                        invalid_values_tracker[i][j] =1     
+                if col in self.data_ranges:
                     if self.data_object.loc[i].at[col] < self.data_ranges[col][0] or self.data_object.loc[i].at[col] > self.data_ranges[col][1]:
                         invalid_values_tracker[i][j] =1               
                 elif self.invalid_dictionary.get(col):
@@ -205,57 +188,80 @@ class CleanlockHolmes:
                         invalid_values_tracker[i][j] = 1
          
         return invalid_values_tracker
-                
+
+    def _clean_data_row_drop(self, invalid_values_tracker):
+        """
+        Function implements data cleaning method in which rows with invalid entries are dropped from the data frame
+        param invalid_values_tracker represeting problematic values as 1 entries 
+        returns None
+        """
+        rows, columns = invalid_values_tracker.shape
+        for i in range(rows):
+                total = sum(invalid_values_tracker[i])
+                if total > 0:
+                    self.data_object = self.data_object.drop([i])
+        
+    def _clean_data_replace_value(self, invalid_values_tracker, value_dictionary):
+        """
+        Function implements data cleaning method in which rows with invalid entries are replaced with specified values
+        param:
+            invalid_values_tracker represeting problematic values as 1 entries
+            value_dictionary dictionary with column names as keys and replacement values as values
+        returns None
+        """
+        rows, columns = invalid_values_tracker.shape
+        for i in range(rows):
+            for j in range(columns):
+                col = self.columns[j]
+                if invalid_values_tracker[i][j] == 1:
+                    self.data_object.loc[i,col]= value_dictionary[col]
+        
+    def _clean_data_replace_average(self, invalid_values_tracker):
+        """
+        Function implements data cleaning method in which rows with numeric invalid entries are replaced with the median and
+        non-numeric are replaced with a mode
+        param:
+            invalid_values_tracker represeting problematic values as 1 entries
+        returns None
+        """
+        rows, columns = invalid_values_tracker.shape
+        median_values = self.data_object.median(numeric_only = True)
+        mode_values = self.data_object.mode().iloc[0]
+        for j in range(columns):
+            col = self.columns[j]
+            if col in median_values:
+                replace_value = median_values[col]
+            else:
+                replace_value = mode_values[col]
+                                
+            for i in range(rows):
+                if invalid_values_tracker[i][j] == 1:
+                    self.data_object.loc[i,col] = replace_value       
 
     def clean_data(self, method, invalid_values_tracker, arg = {}):
-
         """
         Function utilizes chosen method to rectify problematic value entries.
         Selects a method from these options:
         method 1 drop_row: removes data point
-        method 2 replace_row : replaces problematic data point with values
+        method 2 replace_value : replaces problematic data point with values provided
         method 3 replace_average : replaces problematic numeric data point with the median and mode for categorical
-        specified in arg["replacement"]
+        specified in arg (dictionary mapping col names to replacement values)
         param
 
                 method - rectification method specified by user
-                arg - dictionary containg replacement options
+                arg - dictionary containg auxiliary information (see method description for requirements)
         returns None
-
         """
-        rows, columns = invalid_values_tracker.shape
         if method == 1:
-            for i in range(rows):
-                total = sum(invalid_values_tracker[i])
-                if total > 0:
-                    self.data_object = self.data_object.drop([i])
+            self._clean_data_row_drop(invalid_values_tracker)
 
         elif method == 2:
-            for i in range(rows):
-                for j in range(columns):
-                    col = self.columns[j]
-                    if invalid_values_tracker[i][j] == 1:
-                        self.data_object.loc[i,col]= arg[col]
+            self._clean_data_replace_value(invalid_values_tracker, arg)
 
         elif method == 3:
-            median_values = self.data_object.median(numeric_only = True)
-            mode_values = self.data_object.mode().iloc[0]
-            for j in range(columns):
-                col = self.columns[j]
-                if col in median_values:
-                    replace_value = median_values[col]
-                else:
-                    replace_value = mode_values[col]
-                                
-                for i in range(rows):
-                    if invalid_values_tracker[i][j] == 1:
-                        self.data_object.loc[i,col] = replace_value
-
-        return self.data_object
-
-        
-          
+            self._clean_data_replace_average(invalid_values_tracker)
             
+        return self.data_object
 
     def write_data(self, new_file_name):
 
@@ -266,28 +272,31 @@ class CleanlockHolmes:
         """
 
         self.data_object.to_csv(new_file_name)
-                
-
-        
+      
 if __name__ == "__main__":
 
     data_object = CleanlockHolmes("testcase.csv")
     print(data_object.data_object)
 
     # data_object.interactive_specify_col_data_types()
+    
     data_object.specify_col_data_types('float', "Weight")
     data_object.specify_col_data_types('int', "Height")
     data_object.specify_col_data_types('str', "Color")
     data_object.specify_col_data_types('str', "Food")
     
 
-    output_2 = data_object.specify_viable_range(100, 200, "Weight")
+    # data_object.interactive_specify_viable_range()
+
+    
+    data_object.specify_viable_range(100, 200, "Weight")
+    data_object.specify_viable_range(100, 200, "Height")
 
  
     
     
-    # output = data_object.specify_invalid_entries(['na', '', 'null', '0'], 'Height')
-    # output = data_object.specify_invalid_entries(['na', '', 'null', '0'], 'Weight')
+    output = data_object.specify_invalid_entries(['na', '', 'null', '0'], 'Height')
+    output = data_object.specify_invalid_entries(['na', '', 'null', '0'], 'Weight')
 
 
     data_object.specify_valid_entries(['sushi', 'pizza', 'other'] , 'Food')
@@ -296,11 +305,13 @@ if __name__ == "__main__":
     
 
     output_3 = data_object.identify_invalid_values()
-    print(output_3)
+
 
     
-    output_4 = data_object.clean_data(3, output_3, {'Food': 'not specified', 'Height' : 'out of range', 'Color': 'black', 'Weight' : 'out of range'})
-    print(output_4)
+    data_object.clean_data(3, output_3, {'Food': 'not specified', 'Height' : 'out of range', 'Color': 'black', 'Weight' : 'out of range'})
+    
+
+    print(data_object.data_object)
 
     data_object.write_data("cleaned_data.csv")
 

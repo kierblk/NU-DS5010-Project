@@ -1,6 +1,21 @@
 import numpy as np
 import pandas as pd
 
+'''
+(Rebecca) Had a few notes; added commentary as needed
+
+Overall note:
+    I heard best practice for syntax formatting is only have one empty line
+    between methods/functions (I could be wrong, but am open to discussing it).
+    Even if we do more than one empty line,
+    we should keep it consistent throughout the class.
+
+For methods that return None:
+    I believe that if a method returns None, then the final line should just say "return".
+    Ex. line 91: specify_invalid_entries returns None, but last line of code returns self.invalid_dictionary.
+    Could we confirm with professor?
+'''
+
 class CleanlockHolmes:
     """
     represents dataset objects in the process of being cleaned. Provides
@@ -145,6 +160,7 @@ class CleanlockHolmes:
             raise Exception(f"column {col_name} must have been declared numeric prior to specifying viable range")
 
     def identify_invalid_values(self):
+
         """
         identifies row/col pairs that contain an invalid value 
         param None
@@ -248,6 +264,7 @@ class CleanlockHolmes:
         return self.data_object
 
     def write_data(self, new_file_name):
+
         """
         Function writes rectified data to a specified file
         param new_file_name: specified file
@@ -255,40 +272,3 @@ class CleanlockHolmes:
         """
 
         self.data_object.to_csv(new_file_name)
-      
-if __name__ == "__main__":
-
-    data_object = CleanlockHolmes("testcase.csv")
-    print(data_object.data_object)
-
-    # data_object.interactive_specify_col_data_types()
-    
-    data_object.specify_col_data_types('float', "Weight")
-    data_object.specify_col_data_types('int', "Height")
-    data_object.specify_col_data_types('str', "Color")
-    data_object.specify_col_data_types('str', "Food")
-    
-
-    # data_object.interactive_specify_viable_range()
-
-    data_object.specify_viable_range(100, 200, "Weight")
-    data_object.specify_viable_range(100, 200, "Height")
-    
-    output = data_object.specify_invalid_entries(['na', '', 'null', '0'], 'Height')
-    output = data_object.specify_invalid_entries(['na', '', 'null', '0'], 'Weight')
-
-
-    data_object.specify_valid_entries(['sushi', 'pizza', 'other'] , 'Food')
-    data_object.specify_valid_entries(['red', 'blue', 'green'] , 'Color')
-
-    output_3 = data_object.identify_invalid_values()
-    
-    data_object.clean_data(3, output_3, {'Food': 'not specified', 'Height' : 'out of range', 'Color': 'black', 'Weight' : 'out of range'})
-
-    print(data_object.data_object)
-
-    data_object.write_data("cleaned_data.csv")
-
-    
-    
-

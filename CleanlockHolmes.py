@@ -4,12 +4,6 @@ import pandas as pd
 '''
 (Rebecca) Had a few notes; added commentary as needed
 
-Overall note:
-    I heard best practice for syntax formatting is only have one empty line
-    between methods/functions (I could be wrong, but am open to discussing it).
-    Even if we do more than one empty line,
-    we should keep it consistent throughout the class.
-
 For methods that return None:
     I believe that if a method returns None, then the final line should just say "return".
     Ex. line 91: specify_invalid_entries returns None, but last line of code returns self.invalid_dictionary.
@@ -49,6 +43,7 @@ class CleanlockHolmes:
                 self.col_types_dictionary[column] = ['int']
             else:
                 self.col_types_dictionary[column] = ['float']
+        # do we need to add a return after the loop?
 
     def specify_col_data_types(self, data_type, col_name):
         """
@@ -69,17 +64,13 @@ class CleanlockHolmes:
         file_name, file_format = input_file.split(".")
 
         if file_format == 'csv':
-        
             df = pd.read_csv(input_file)        
-
         elif file_format == 'json':
-
             df = pd.read_json(input_file)
         else:
             df = None
             print("Data type not supported by this package")
-
-        print(df.columns)
+        # print(df.columns)
         return df
 
     def specify_invalid_entries(self, invalid_values_list, col_name):
@@ -112,7 +103,6 @@ class CleanlockHolmes:
         """
         min_value = float(input(f"Please enter an numeric lower bound for {column}: "))
         max_value = float(input(f"Please enter an numeric upper bound for {column}: "))
-
         return min_value, max_value
 
     def interactive_specify_viable_range(self):
@@ -129,14 +119,11 @@ class CleanlockHolmes:
                 while type(min_value) != float or type(max_value) != float:
                     try:
                         min_value, max_value = self._get_user_input_colbound(column)
-
                     except:
                         print("only numeric values accepted")
-                        min_value, max_value = self._get_user_input_colbound(column)
-                        
+                        min_value, max_value = self._get_user_input_colbound(column) 
                 self.data_ranges[column] = [min_value, max_value]
-
-        return self.data_ranges
+        return self.data_ranges # why do we return data_ranges if we method is returning None?
 
     def specify_viable_range(self,min_value, max_value, col_name):
         """
@@ -247,28 +234,22 @@ class CleanlockHolmes:
         method 3 replace_average : replaces problematic numeric data point with the median and mode for categorical
         specified in arg (dictionary mapping col names to replacement values)
         param
-
-                method - rectification method specified by user
-                arg - dictionary containg auxiliary information (see method description for requirements)
-        returns None
-        """
+            method - rectification method specified by user
+            arg - dictionary containg auxiliary information (see method description for requirements)
+            returns None
+            """
         if method == 1:
             self._clean_data_row_drop(invalid_values_tracker)
-
         elif method == 2:
             self._clean_data_replace_value(invalid_values_tracker, arg)
-
         elif method == 3:
-            self._clean_data_replace_average(invalid_values_tracker)
-            
+            self._clean_data_replace_average(invalid_values_tracker) 
         return self.data_object
 
     def write_data(self, new_file_name):
-
         """
         Function writes rectified data to a specified file
         param new_file_name: specified file
         returns None
         """
-
         self.data_object.to_csv(new_file_name)

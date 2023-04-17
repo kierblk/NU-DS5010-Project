@@ -2,7 +2,7 @@ import unittest
 import pandas as pd
 import numpy as np
 from CleanlockHolmes import CleanlockHolmes
-# still testing code functionality; in progress
+
 class TestCleanlockHolmes(unittest.TestCase):
 
     def test_init(self):
@@ -85,17 +85,16 @@ class TestCleanlockHolmes(unittest.TestCase):
         '''
         Tests if given values are identified in table
         '''
-        pass
+        self.CleanlockHolmes.specify_col_data_types()
+        self.CleanlockHolmes.specify_invalid_entries(['a'], 'col1')
+        self.CleanlockHolmes.specify_viable_range()
+        invalid_test = self.CleanlockHolmes.identify_invalid_values()
+        expected_test = ''
+        self.assertEqual(self.CleanlockHolmes.invalid)
 
     def test_clean_data(self):
         '''
         Tests if cleaning value entries outputs based on chosen method
-        '''
-        pass
-
-    def test_write_data(self):
-        '''
-        Tests if file is written to cvs or json file
         '''
         pass
 

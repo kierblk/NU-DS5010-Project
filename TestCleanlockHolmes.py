@@ -90,7 +90,7 @@ class TestCleanlockHolmes(unittest.TestCase):
         self.CleanlockHolmes.specify_viable_range()
         invalid_test = self.CleanlockHolmes.identify_invalid_values()
         expected_test = ''
-        self.assertEqual(self.CleanlockHolmes.invalid)
+        self.assertEqual(self.CleanlockHolmes.invalid_dictionary['col1', ['a']])
 
     def test_clean_data(self):
         '''
@@ -99,6 +99,6 @@ class TestCleanlockHolmes(unittest.TestCase):
         pass
 
 
-def main():
-    unittest.main(verbosity=3)
-main()
+    def main():
+        unittest.main(verbosity=3)
+    main()

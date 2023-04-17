@@ -1,7 +1,7 @@
 # Workflow 2:
 
 # import package
-From CleanlockHolmes import CleanlockHolmes
+from CleanlockHolmes import CleanlockHolmes
 
 # Instatiate object
 data_object = CleanlockHolmes("testcase.csv")

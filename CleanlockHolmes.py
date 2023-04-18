@@ -147,7 +147,6 @@ class CleanlockHolmes:
             raise Exception(f"column {col_name} must have been declared numeric prior to specifying viable range")
 
     def identify_invalid_values(self):
-
         """
         identifies row/col pairs that contain an invalid value 
         param None

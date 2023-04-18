@@ -1,21 +1,91 @@
-# Northeastern University, DS 5010 - Project
+# CleanLockHolmes
 
-A collaborative team project by Kieran Black, Sarah Gore, and Rebecca Bronfeld.
+<!--- These are examples. See https://shields.io for others or to customize this set of shields. You might want to include dependencies, project status and licence info here --->
+![GitHub repo size](https://img.shields.io/github/repo-size/kierblk/NU-DS5010-Project)
+![GitHub contributors](https://img.shields.io/github/contributors/kierblk/NU-DS5010-Project)
+![GitHub stars](https://img.shields.io/github/stars/kierblk/NU-DS5010-Project?style=social)
+![GitHub forks](https://img.shields.io/github/forks/kierblk/NU-DS5010-Project?style=social)
+
+CleanLockHolmes is a Python library that allows you to clean and prepare 
+tabular data for accurate analysis and modeling. This is a collaborative 
+project for Northeastern University, DS 
+5010 - 
+Spring 2023. 
 
 For full project requirements: [Project Requirements](project-requirements.md)
 
-## Description
+## Contributors
 
-# (this note will be removed) A Markdown-formatted description of the package’s overall purpose...
-The purpose of the package CleanlockHolmes is to clean and prepare tabular data for accurate analysis and modeling. Clean, accurate data is an integral part of Data Science, as Data Science applications cannot be implemented successfully if the underlying data contains invalid or incorrect values.
+* [@sezzagore91](https://github.com/sezzagore91) 
+* [@rebeccabronfeld](https://github.com/rebeccabronfeld) 
+* [@kierblk](https://github.com/kierblk)
 
 ## Package Structure
 
-# (this note will be removed) the organization of the package code in the repository...
-The package structure involves a single Python class for customizing and cleaning valid/invalid data, either through prompt or user input.
+```text
+NU-DS5010-Project
+├── LICENSE.md
+├── cleanlockholmes
+│   ├── data
+│   │   ├── xxxx.py
+│   │   └── xxxx.py
+│   ├── __init__.py
+│   ├── __main__.py
+│   └── tests
+│       ├── xxxx.py
+│       └── xxxx.py
+├── README.md
+└── .gitignore
+```
 
-## Usage Examples
 
-# (this note will be removed) Some simple examples of usage...
+## Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+* You have installed the latest version of `Python`
+* You have a `<Windows/Linux/Mac>` machine. State which OS is supported/which is not.
+* You have read `<guide/link/documentation_related_to_project>`.
+
+## Installing TO
+
+To install CleanLockHolmes, follow these steps:
+
+macOS:
+```
+<install_command>
+```
+
+
+Add run commands and examples you think users will find useful. Provide an options reference for bonus points!
+
+## Contributing
+To contribute, follow these steps:
+
+1. Fork this repository.
+2. Create a branch: `git checkout -b <branch_name>`.
+3. Make your changes and commit them: `git commit -m '<commit_message>'`
+4. Push to the original branch: `git push origin <project_name>/<location>`
+5. Create the pull request.
+6. Request the review of at least two exisiting contributors.
+
+Alternatively see the GitHub documentation on [creating a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
+
+
+## License
+<!--- If you're not sure which open license to use see https://choosealicense.com/--->
+
+This project uses the following license: [<license_name>](<link>).
+
+--------
+Notes area for combining README format with our project notes:
+
 Usage Example 1: Import CleanlockHolmes, read .csv file of tabular data, identify column types by user input, remove rows containing specificed invalid value, reading new file.
+
 Usage Example 2: Import CleanlockHolmes, read .csv file, utilize prompt option to determine invalid values and remove rows containing them.
+
+Resources:
+
+https://docs.python-guide.org/writing/structure/
+https://shields.io/
+https://github.com/scottydocs/README-template.md/blob/master/README.md
+https://dev.to/codemouse92/dead-simple-python-project-structure-and-imports-38c6

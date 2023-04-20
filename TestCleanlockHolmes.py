@@ -34,15 +34,15 @@ class TestCleanlockHolmes(unittest.TestCase):
         '''
         Tests if data type for given column is identified (prompt user)
         '''
-        self.CleanlockHolmes.interactive_specify_col_data_types('str', 'col1')
-        self.assertEqual(self.CleanlockHolmes.col_types_dictionary['col1', ['str']])
+        expected = self.CleanlockHolmes.interactive_specify_col_data_types('str', 'col1')
+        self.assertEqual(self.CleanlockHolmes.col_types_dictionary['col1', ['str']], expected)
 
     def test_specify_col_data_types(self):
         '''
         Tests if data type for given column is identified (user input)
         '''
-        self.CleanlockHolmes.specify_col_data_types('int', 'col1')
-        self.assertEqual(self.CleanlockHolmes.col_types_dictionary['col1', ['int']])
+        expected = self.CleanlockHolmes.specify_col_data_types('int', 'col1')
+        self.assertEqual(self.CleanlockHolmes.col_types_dictionary['col1', ['int']], expected)
 
     def test_specify_invalid_entries(self):
         '''
@@ -79,7 +79,8 @@ class TestCleanlockHolmes(unittest.TestCase):
         '''
         self.CleanlockHolmes.specify_col_data_types('int', 'col1')
         self.CleanlockHolmes.specify_viable_range(100, 200, 'col1')
-        self.assertEqual(self.CleanlockHolmes.data_ranges['col1', [100, 200]])
+        expected = ['col1', [100, 200]]
+        self.assertEqual(self.CleanlockHolmes.data_ranges['col1', [100, 200]], expected)
 
     def test_identify_invalid_values(self):
         '''
@@ -88,15 +89,33 @@ class TestCleanlockHolmes(unittest.TestCase):
         self.CleanlockHolmes.specify_col_data_types()
         self.CleanlockHolmes.specify_invalid_entries(['a'], 'col1')
         self.CleanlockHolmes.specify_viable_range()
-        invalid_test = self.CleanlockHolmes.identify_invalid_values()
-        expected_test = ''
-        self.assertEqual(self.CleanlockHolmes.invalid_dictionary['col1', ['a']])
+        # invalid = self.CleanlockHolmes.identify_invalid_values()
+        expected = ['col1', ['a']]
+        self.assertEqual(self.CleanlockHolmes.invalid_dictionary['col1', ['a']], expected)
 
-    def test_clean_data(self):
+    def test_clean_data_method_1(self):
         '''
-        Tests if cleaning value entries outputs based on chosen method
+        Tests if cleaning value entries outputs based on method 1 of clean_data
         '''
-        pass
+        actual = self.CleanlockHolmes._clean_data_row_drop(invalid_values_tracker=[25])
+        expected = [25]
+        self.assertEqual(actual, expected)
+
+    def test_clean_data_method_2(self):
+        '''
+        Tests if cleaning value entries outputs based on method 2 of clean_data
+        '''
+        actual = self.CleanlockHolmes._clean_data_replace_value(invalid_values_tracker=['abc'])
+        expected = ['xyz']
+        self.assertEqual(actual, expected)
+
+    def test_clean_data_method_3(self):
+        '''
+        Tests if cleaning value entries outputs based on method 3 of clean_data
+        '''
+        actual = self.CleanlockHolmes._clean_data_replace_average(invalid_values_tracker=[1, 3])
+        expected = [1, 2, 3]
+        self.assertEqual(actual, expected)
 
 
     def main():

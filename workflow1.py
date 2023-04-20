@@ -1,14 +1,14 @@
 # Workflow 1:
 
 # import package
-From CleanlockHolmes import CleanlockHolmes
+from CleanlockHolmes import CleanlockHolmes
 
 # Instatiate object
 data_object = CleanlockHolmes("testcase.csv")
 
 # specify invalid values for weight and height- all other entries considered valid
-data_object.specify_invalid_entries([“NA”, “”, “null”, “--”], “Weight”)
-data_object.specify_invalid_entries([“NA”, “”, “null”, “--”], “Height”)
+data_object.specify_invalid_entries(['NA', '', 'null', '--'], 'Weight')
+data_object.specify_invalid_entries(['NA', '', 'null', '--'], 'Height')
 
 # specify valid entries for food and color - all other entries considered invalid
 data_object.specify_valid_entries(['sushi', 'pizza', 'other'] , 'Food')

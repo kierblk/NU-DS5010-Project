@@ -34,6 +34,7 @@ class CleanlockHolmes:
                 self.col_types_dictionary[column] = ['int']
             else:
                 self.col_types_dictionary[column] = ['float']
+        # do we need to add a return after the loop?
 
     def specify_col_data_types(self, data_type, col_name):
         """
@@ -54,16 +55,13 @@ class CleanlockHolmes:
         file_name, file_format = input_file.split(".")
 
         if file_format == 'csv':
-        
             df = pd.read_csv(input_file)        
-
         elif file_format == 'json':
-
             df = pd.read_json(input_file)
         else:
             df = None
             print("Data type not supported by this package")
-            
+
         return df
 
     def specify_invalid_entries(self, invalid_values_list, col_name):
@@ -96,7 +94,6 @@ class CleanlockHolmes:
         """
         min_value = float(input(f"Please enter an numeric lower bound for {column}: "))
         max_value = float(input(f"Please enter an numeric upper bound for {column}: "))
-
         return min_value, max_value
 
     def interactive_specify_viable_range(self):
@@ -113,11 +110,9 @@ class CleanlockHolmes:
                 while type(min_value) != float or type(max_value) != float:
                     try:
                         min_value, max_value = self._get_user_input_colbound(column)
-
                     except:
                         print("only numeric values accepted")
-                        min_value, max_value = self._get_user_input_colbound(column)
-                        
+                        min_value, max_value = self._get_user_input_colbound(column) 
                 self.data_ranges[column] = [min_value, max_value]
 
     def specify_viable_range(self,min_value, max_value, col_name):
@@ -235,10 +230,8 @@ class CleanlockHolmes:
         """
         if method == 1:
             self._clean_data_row_drop(invalid_values_tracker)
-
         elif method == 2:
             self._clean_data_replace_value(invalid_values_tracker, arg)
-
         elif method == 3:
             self._clean_data_replace_average(invalid_values_tracker)
 

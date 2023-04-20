@@ -34,7 +34,6 @@ class CleanlockHolmes:
                 self.col_types_dictionary[column] = ['int']
             else:
                 self.col_types_dictionary[column] = ['float']
-        # do we need to add a return after the loop?
 
     def specify_col_data_types(self, data_type, col_name):
         """

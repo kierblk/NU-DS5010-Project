@@ -1,21 +1,6 @@
 import numpy as np
 import pandas as pd
 
-'''
-(Rebecca) Had a few notes; added commentary as needed
-
-Overall note:
-    I heard best practice for syntax formatting is only have one empty line
-    between methods/functions (I could be wrong, but am open to discussing it).
-    Even if we do more than one empty line,
-    we should keep it consistent throughout the class.
-
-For methods that return None:
-    I believe that if a method returns None, then the final line should just say "return".
-    Ex. line 91: specify_invalid_entries returns None, but last line of code returns self.invalid_dictionary.
-    Could we confirm with professor?
-'''
-
 class CleanlockHolmes:
     """
     represents dataset objects in the process of being cleaned. Provides
@@ -64,7 +49,7 @@ class CleanlockHolmes:
         """
         Function to read data from an input file and stores it in a pandas DataFrame
         param input_file: input file from user
-        returns None
+        returns the dataframe if supported file otherwise none
         """
         file_name, file_format = input_file.split(".")
 
@@ -78,8 +63,7 @@ class CleanlockHolmes:
         else:
             df = None
             print("Data type not supported by this package")
-
-        print(df.columns)
+            
         return df
 
     def specify_invalid_entries(self, invalid_values_list, col_name):
@@ -136,8 +120,6 @@ class CleanlockHolmes:
                         
                 self.data_ranges[column] = [min_value, max_value]
 
-        return self.data_ranges
-
     def specify_viable_range(self,min_value, max_value, col_name):
         """
         Specifies a viable column range of values  for a previously decalared numeric column
@@ -160,11 +142,11 @@ class CleanlockHolmes:
             raise Exception(f"column {col_name} must have been declared numeric prior to specifying viable range")
 
     def identify_invalid_values(self):
-
         """
         identifies row/col pairs that contain an invalid value 
         param None
-        returns None
+        returns the invalid values tracker - row by columns numpy array where 0 denotes a valid entry and 1
+        denotes an invalid entry
         """
         rows , columns = self.data_object.shape
         invalid_values_tracker = np.zeros((rows, columns))
@@ -247,7 +229,6 @@ class CleanlockHolmes:
         method 3 replace_average : replaces problematic numeric data point with the median and mode for categorical
         specified in arg (dictionary mapping col names to replacement values)
         param
-
                 method - rectification method specified by user
                 arg - dictionary containg auxiliary information (see method description for requirements)
         returns None
@@ -260,15 +241,11 @@ class CleanlockHolmes:
 
         elif method == 3:
             self._clean_data_replace_average(invalid_values_tracker)
-            
-        return self.data_object
 
     def write_data(self, new_file_name):
-
         """
         Function writes rectified data to a specified file
         param new_file_name: specified file
         returns None
         """
-
         self.data_object.to_csv(new_file_name)

@@ -15,7 +15,6 @@ class TestCleanlockHolmes(unittest.TestCase):
         '''
         Tests reading a given CSV file
         '''
-        # self.cleanlockholmes = CleanlockHolmes('testcase.csv')
         self.assertIsNotNone(self.cleanlockholmes.read_data('testcase.csv'))
 
     def test_read_data_json(self):
